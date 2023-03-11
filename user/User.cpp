@@ -3,21 +3,38 @@
 
 #include "User.h"
 
-User::User(string id, string login, string password): _id(id), _login(login), _password(password)
+void User :: setName(std::string& name)
 {
-}
+	_name = name;
+};
 
-void User:setPassword(string password) 
+void User :: setLogin(std::string& login)
 {
-  _password = password;
-}
+	_login = login;
+};
 
-void User:setLogin(string login) 
+void User :: setPassword(std::string& password)
 {
-  _login = login;
-}
+	_password = password;
+};
 
-bool User:checkPassword(string password) 
+void User :: setId(int& id)
 {
-  return _password == password;
-}
+	_id = id;
+};
+
+std::string User::getName() {
+	return _name;
+};
+
+std::string User::getLogin() {
+	return _login;
+};
+
+std::string User::getPassword() {
+	return _password;
+};
+
+std::string User::getId() {
+	return _id;
+};
