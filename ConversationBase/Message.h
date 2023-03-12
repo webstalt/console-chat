@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
-#include "user\User.h"
+#include "User.h"
 class Message {
 public:
-	Message(const std::string& content,
+	explicit Message(const std::string& content,
 			const User& from,
 			const User& to) :
 				_content(content), _from(from), _to(to) {};
