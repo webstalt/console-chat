@@ -1,18 +1,15 @@
 #pragma once
 #include "Message.h"
 #include <vector>
-#include <map>
+
 
 class Conversation {
 public:
-	void SendMessage(const Message&);
-	void ShowNew()const;
-	void ShowAll()const;
-
+	void PushMessage(const Message&);
+	~Conversation() = default noexcept;
 private:
-	std::pair <User, User> _conversation_key;
-	std::map <_conversation_key, std::vector <std::string>> _correspondence;
+	std::vector <Message> _correspondence;
+	int _new_messages_counter = 0;
 private:
-	std::pair <User, User> MakeKey(const User&, const User&);
 	Conversation(const Message&);
 };
