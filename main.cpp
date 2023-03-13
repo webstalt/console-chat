@@ -1,5 +1,7 @@
 #include "./user/User.h"
 #include "./user/User.cpp"
+#include "./user/UserBase.h"
+#include "./user/UserBase.cpp"
 #include <set>
 
 bool operator < (User c1, User c2)
@@ -8,12 +10,11 @@ bool operator < (User c1, User c2)
 }
 
 int main() {
-	std::set <User> s;
-    User u ("123", "tolik", "123ads", '1');
-    s.insert(u);
-    User u1("123", "aaaa", "123ads", '2');
-    s.insert(u1);
-    s.erase(u);
-
-    int arr[5] = { 1,2,3,4,5 };
+	UserBase userBase;
+    User u ("u", "logintolik", "123ads", '1');
+    userBase.addUser(u);
+    User u1("u1", "login1aaaa", "123ads", '2');
+    userBase.addUser(u1);
+    std::cout << userBase.getUsers() << std::endl;
+    std::cout << userBase.getUserByName("u") << std::endl;
 }
