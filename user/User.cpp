@@ -3,38 +3,42 @@
 
 #include "User.h"
 
-void User :: setName(std::string& name)
+void User :: setName(const std::string& name)
 {
 	_name = name;
 };
 
-void User :: setLogin(std::string& login)
+void User :: setLogin(const std::string& login)
 {
 	_login = login;
 };
 
-void User :: setPassword(std::string& password)
+void User :: setPassword(const std::string& password)
 {
 	_password = password;
 };
 
-void User :: setId(int& id)
+void User :: setId(const int& id)
 {
 	_id = id;
 };
 
-std::string User::getName() {
+std::string User::getName() const 
+{
 	return _name;
 };
 
-std::string User::getLogin() {
+std::string User::getLogin() const 
+{
 	return _login;
 };
 
-std::string User::getPassword() {
+std::string User::getPassword() const 
+{
 	return _password;
 };
 
-std::string User::getId() {
+int User::getId() const 
+{
 	return _id;
 };

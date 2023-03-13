@@ -18,7 +18,7 @@ public:
 	std::string getName() const;
 	std::string getLogin() const;
 	std::string getPassword() const;
-	std::string getId() const;
+	int getId() const;
 private:
 	std::string _name;
 	std::string _login;
