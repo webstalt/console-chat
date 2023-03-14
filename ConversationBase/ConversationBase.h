@@ -1,33 +1,48 @@
 #pragma once
-#include "Conversation.h"
+#include "Message.h"
+#include <vector>
 #include <map>
 #include <set>
 #include <atlstr.h>
 #include <exception>
+#include <initializer_list>
+/*supporting class for keeping identification key of conversations
+set of one member (recepient) for dialog and set of all members for group chat*/
+class ConversationKey {
+public:
+	//key constructor for dialog
+	ConversationKey(const User&);
+	//key constructor for group chat
+	ConversationKey(const std::initializer_list<User>&);
+	size_t GetConversationKeySize() const;
+	std::set<User> GetConversationKey() const;
 
+private:
+	std::set <User> _conversation_key;
+};
+bool operator < (const ConversationKey&, const ConversationKey&);
+/*database of all conversations for curent user
+*/
+class Conversation {
+public:
+	void AddMessageNewMessage(const Message&);
+	size_t GetNewMessageCounter(const ConversationKey&);
+	std::vector <Message> GetHistory();
+	std::vector <Message> GetNewMessages();
+private:
+	std::set <ConversationKey> _new_message_source;
+	std::map <ConversationKey, Conversation> _correspondence;
+	Conversation();
+};
+/*database of all conversations
+made as "singleton"*/
 class ConversationBase {
 public:
 	ConversationBase(ConversationBase&) = delete;
     void operator=(const ConversationBase&) = delete;
-	static ConversationBase ChangeConversationBase(const Message&);
-
-	//class of unique keys to identificate conversation: may consist of 2 or more users
-	class ConversationKey {
-	public:
-		//key for dialog
-		explicit ConversationKey(const User&, const User&);
-
-		//key for group chat
-		template<typename T, typename ... Args>
-		explicit ConversationKey(const& T,const& Args ...);
-	private:
-		CString _tipe_comparator = "class User";
-		set <int> _conversation_key;
-	};
-
+	static ConversationBase* GetConversationBase();
 private:
-	static std::map <ConversationKey, Conversation> _conversation_base;
-private:
-	ConversationBase(const Message&);
-	static bool _conversation_base_exist = false;
+	std::map <ConversationKey, Conversation> _conversation_base_data;
+	static ConversationBase* _conversation_base;
+	ConversationBase();
 };

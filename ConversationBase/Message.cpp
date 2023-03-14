@@ -3,10 +3,10 @@
 std::string Message::GetContent()const{
 	return _content;
 };
-std::string Message::GetSender()const {
+User Message::GetSender()const {
 	return _from;
 };
-std::string Message::GetRecipient()const {
+User Message::GetRecipient()const {
 	return _to;
 };
 bool Message::IsRead()const {

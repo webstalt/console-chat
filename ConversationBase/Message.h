@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "User.h"
+#include "../user/User.h"
 class Message {
 public:
 	explicit Message(const std::string& content,
@@ -8,11 +8,10 @@ public:
 			const User& to) :
 				_content(content), _from(from), _to(to) {};
 	std::string GetContent()const;
-	std::string GetSender()const;
-	std::string GetRecipient()const;
+	User GetSender()const;
+	User GetRecipient()const;
 	bool IsRead()const;
 	void MarkAsRead();
-	~Message() = default noexcept;
 private:
 	std::string _content;
 	User _from;
