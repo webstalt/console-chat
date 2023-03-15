@@ -31,7 +31,7 @@ std::string User::GetPassword() const
 {
 	return _password;
 };
-bool operator < (User c1, User c2)
+bool operator < (const User& c1, const User& c2)
 {
-	return c1.getName() < c2.getName();
+	return c1.GetName() < c2.GetName();
 }
