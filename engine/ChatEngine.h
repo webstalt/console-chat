@@ -1,7 +1,7 @@
 //state and singleton patterns
 #pragma once
 #include <iostream>
-#include "../ConversationBase/ConversationBase.h"
+#include "../conversation/ConversationBase.h"
 #include "../user/UserBase.h"
 class ChatEngine {
 public:
