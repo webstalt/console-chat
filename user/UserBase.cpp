@@ -39,12 +39,12 @@ size_t UserBase::getUsersAmount() const
   return _userBase.size();
 };
 
-std::set<User>::iterator UserBase::getUserByName(const string& name) const
+std::set<User>::iterator UserBase::getUserByName(const std::string& name) const
 {
   return std::find_if(_userBase.begin(), _userBase.end(), find_by_name(name));
 };
 
-std::set<User>::iterator UserBase::getUserByLogin(const string& login) const
+std::set<User>::iterator UserBase::getUserByLogin(const std::string& login) const
 {
   return std::find_if(_userBase.begin(), _userBase.end(), find_by_login(login));
 };
