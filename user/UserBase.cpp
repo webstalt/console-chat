@@ -7,7 +7,7 @@ struct find_by_name {
   {};
   bool operator()(const User& user) 
   {
-    return user._name = name;
+    return user.setName(name);
   };
 private:
   std::string _name;
@@ -18,7 +18,7 @@ struct find_by_login {
   {};
   bool operator()(const User& user) 
   {
-    return user._login = login;
+    return user.setLogin(login);
   };
 private:
   std::string _login;
