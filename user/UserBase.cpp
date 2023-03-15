@@ -49,7 +49,7 @@ std::set<User>::iterator UserBase::getUserByLogin(const string& login) const
   return std::find_if(_userBase.begin(), _userBase.end(), find_by_login(login));
 };
 
-UserBase::~UserBase
+UserBase::~UserBase()
 {
   _userBase.clear();
 };
