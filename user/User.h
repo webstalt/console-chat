@@ -19,4 +19,4 @@ private:
 	std::string _password;
 };
 bool operator < (const User&, const User&);
-
+ 

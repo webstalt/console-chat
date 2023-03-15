@@ -2,10 +2,13 @@
 
 #include "UserBase.h"
 
+UserBase::UserBase() {
+	std::set<User> _user_base_data;
+}
 UserBase* UserBase::_user_base = nullptr;
 UserBase* UserBase::GetUserBase() {
 	if (_user_base == nullptr) {
-		std::set<User> _user_base_data;
+		_user_base = new UserBase();
 	}
 	return _user_base;
 }
@@ -35,11 +38,11 @@ std::set<User> UserBase::GetUsers() const
 };
 void UserBase::AddUser(const User& user)
 {
-	GetUsers().insert(user);
+	GetUserBase()->_user_base_data.insert(user);
 };
 size_t UserBase::GetUsersAmount() const
 {
-	GetUsers().size();
+	return GetUsers().size();
 };
 //std::set<User>::iterator UserBase::getUserByName(const std::string& name) const
 //{
