@@ -11,5 +11,5 @@ public:
   std::set<User>::iterator getUserByName(const string& name) const;
   std::set<User>::iterator getUserByLogin(const string& login) const;
 private:
-  std::set<User> _userbase;
+  std::set<User> _userBase;
 };
