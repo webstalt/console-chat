@@ -2,54 +2,50 @@
 
 #include "UserBase.h"
 
-struct find_by_name {
-  find_by_name(const std::string& name): _name(name) 
-  {};
-  bool operator()(const User& user) 
-  {
-    return user.setName(name);
-  };
-private:
-  std::string _name;
-};
-
-struct find_by_login {
-  find_by_login(const std::string& login): _login(login) 
-  {};
-  bool operator()(const User& user) 
-  {
-    return user.setLogin(login);
-  };
-private:
-  std::string _login;
-};
-
-void UserBase::addUser(const User& user)
+UserBase* UserBase::_user_base = nullptr;
+UserBase* UserBase::GetUserBase() {
+	if (_user_base == nullptr) {
+		std::set<User> _user_base_data;
+	}
+	return _user_base;
+}
+//struct find_by_name {
+//  find_by_name(const std::string& name): _name(name) 
+//  {};
+//  bool operator()(const User& user) 
+//  {
+//    return user.setName(name);
+//  };
+//private:
+//  std::string _name;
+//};
+//struct find_by_login {
+//  find_by_login(const std::string& login): _login(login) 
+//  {};
+//  bool operator()(const User& user) 
+//  {
+//    return user.setLogin(login);
+//  };
+//private:
+//  std::string _login;
+//};
+std::set<User> UserBase::GetUsers() const
 {
-  _userBase.insert(user);
+	return GetUserBase()->_user_base_data;
 };
-
-std::set<User> UserBase::getUsers() const
+void UserBase::AddUser(const User& user)
 {
-  return _userBase;
+	GetUsers().insert(user);
 };
-
-size_t UserBase::getUsersAmount() const
+size_t UserBase::GetUsersAmount() const
 {
-  return _userBase.size();
+	GetUsers().size();
 };
-
-std::set<User>::iterator UserBase::getUserByName(const std::string& name) const
-{
-  return std::find_if(_userBase.begin(), _userBase.end(), find_by_name(name));
-};
-
-std::set<User>::iterator UserBase::getUserByLogin(const std::string& login) const
-{
-  return std::find_if(_userBase.begin(), _userBase.end(), find_by_login(login));
-};
-
-UserBase::~UserBase()
-{
-  _userBase.clear();
-};
+//std::set<User>::iterator UserBase::getUserByName(const std::string& name) const
+//{
+//  return std::find_if(_userBase.begin(), _userBase.end(), find_by_name(name));
+//};
+//std::set<User>::iterator UserBase::getUserByLogin(const std::string& login) const
+//{
+//  return std::find_if(_userBase.begin(), _userBase.end(), find_by_login(login));
+//};
