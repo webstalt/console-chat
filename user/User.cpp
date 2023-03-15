@@ -42,3 +42,7 @@ int User::getId() const
 {
 	return _id;
 };
+bool operator < (User c1, User c2)
+{
+	return c1.getName() < c2.getName();
+}

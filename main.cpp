@@ -4,10 +4,6 @@
 #include "./user/UserBase.cpp"
 #include <set>
 
-bool operator < (User c1, User c2)
-{
-    return c1.getName() < c2.getName();
-}
 
 int main() {
 	UserBase userBase;

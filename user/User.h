@@ -25,5 +25,5 @@ private:
 	std::string _password;
 	int _id;
 };
-
+bool operator < (User, User);
 

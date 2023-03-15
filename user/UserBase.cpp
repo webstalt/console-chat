@@ -34,7 +34,7 @@ std::set<User> UserBase::getUsers() const
   return _userBase;
 };
 
-int UserBase::getUsersAmount() const
+size_t UserBase::getUsersAmount() const
 {
   return _userBase.size();
 };
