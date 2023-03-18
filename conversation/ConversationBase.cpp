@@ -1,44 +1,45 @@
 #include "ConversationBase.h"
-bool operator < (const User& u1, const User& u2) {
-	return u1.getName() < u2.getName();
-};
 
 bool operator < (const ConversationKey& kkey1, const ConversationKey& kkey2) {
-	if (kkey1.GetConversationKeySize() == kkey1.GetConversationKeySize()) {
-		return kkey1.GetConversationKey() < kkey2.GetConversationKey();
-	}
-	else {
-		return kkey1.GetConversationKeySize() < kkey2.GetConversationKeySize();
-	}
+	return kkey1._conversation_key < kkey2._conversation_key;
 };
-ConversationKey::ConversationKey(const User& u1) {
-	_conversation_key.insert(u1);
-};
-ConversationKey::ConversationKey(const std::initializer_list<User>& user_list) {
-	_conversation_key.insert(user_list.begin(), user_list.end());
-};
-size_t ConversationKey::GetConversationKeySize() const {
-	return _conversation_key.size();
-};
-std::set<User> ConversationKey::GetConversationKey() const {
-	return _conversation_key;
-};;
-
-Conversation::Conversation() {};
-void Conversation::AddMessageNewMessage(const Message&) {};
-size_t Conversation::GetNewMessageCounter(const ConversationKey&) {};
-std::vector <Message> Conversation::GetHistory() {};
-std::vector <Message> Conversation::GetNewMessages() {};
-
-ConversationBase* ConversationBase::_conversation_base = nullptr;
 ConversationBase::ConversationBase() {
-	std::map <ConversationKey, Conversation> _conversation_base_data;
+	std::map <ConversationKey, std::vector<ConversationBase::Message>> _conversation_base_data;
+};
+ConversationBase* ConversationBase::_conversation_base = nullptr;
+std::map <ConversationKey, std::vector<ConversationBase::Message>> ConversationBase::GetConversationBaseData() {
+	return _conversation_base_data;
 }
 ConversationBase* ConversationBase::GetConversationBase() {
-    if (_conversation_base == nullptr) {
-        auto _conversation_base = new ConversationBase();
-    }
-	return _conversation_base;
+	if (ConversationBase::_conversation_base == nullptr) {
+		ConversationBase::_conversation_base = new ConversationBase();
+	}
+	return ConversationBase::_conversation_base;
+};
+void ConversationBase::WriteMessage(const std::string& curent_user, 
+									const ConversationKey& to,
+									const std::string& s) {
+	GetConversationBase()->_conversation_base_data[to].push_back({ s,curent_user,false });
+	ConversationKey extended_key(to);
+	for (const auto& it : extended_key._conversation_key) {
+		if (it == curent_user) {
+			continue;
+		}
+		GetConversationBase()->_new_message_source[it].insert(to);
+	}
+};
+std::vector<ConversationBase::Message> ConversationBase::ReadConversation(	const std::string& curent_user,
+																			const ConversationKey& ck) const {
+	if (GetConversationBase()->_new_message_source[curent_user].find(ck) !=
+		GetConversationBase()->_new_message_source[curent_user].end())
+		GetConversationBase()->_new_message_source[curent_user].erase(ck);
+	return GetConversationBase()->GetConversationBaseData()[ck];
+};
+std::set<ConversationKey> ConversationBase::GetNewMessageSource(const std::string& u) const {
+	return GetConversationBase()->_new_message_source[u];
+};
+size_t ConversationBase::GetNewMessageCounter(const std::string& u) const {
+	return GetNewMessageSource(u).size();
 };
 
 
