@@ -19,7 +19,7 @@ public:
 	struct Message {
 		std::string _content;
 		std::string _author;
-	//	bool _read_flag = false;
+		bool _read_flag = false;
 	};
 	ConversationBase(ConversationBase&) = delete;
 	void operator=(const ConversationBase&) = delete;
