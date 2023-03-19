@@ -4,7 +4,6 @@
 #include <string>
 #include <map>
 #include <set>
-#include <atlstr.h>
 #include <exception>
 #include <initializer_list>
 #include <iostream>
