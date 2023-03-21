@@ -6,9 +6,9 @@
 class State;
 class ChatEngine {
 public:
-	ChatEngine(ChatEngine&) = delete;
-	void operator=(const ChatEngine&) = delete;
-	static ChatEngine* GetChatEngine();
+	ChatEngine(ChatEngine&) = delete;//singleton
+	void operator=(const ChatEngine&) = delete;//singleton
+	static ChatEngine* GetChatEngine();//singleton
 	void SetEngineState(State*);
 	void GOTO_StartMenu();
 	void GOTO_RegistrationMenu();
@@ -18,8 +18,8 @@ public:
 	void GOTO_StartChatting();
 private:
 	class State* _curent_state;
-	static ChatEngine* _chat_engine;
-	ChatEngine();
+	static ChatEngine* _chat_engine;//singleton
+	ChatEngine();//singleton
 };
 
 class State {
@@ -37,24 +37,44 @@ class State {
 //automaticly in GOTO_... functions) 
 class Unautorised : public State {
 public:
+	//quite from programm
+	//sign in
+	//awoke RegistrationMenu
 	Unautorised();
-	void Execute();
+	void Execute() {
+		//
+/*		while (true) {
+			char sw;
+			std::cin >> sw;
+			switch (sw)
+				case 'l':
+				case 'r':
+					ChatEngine::GOTO_RegistrationMenu();
+				case 'q':
+			{
+			default:
+				break;
+			}
+		}*/			
+	};
 private:
 	void GOTO_RegistrationMenu(ChatEngine*, User*);
 	void GOTO_MainMenu(ChatEngine*, User*);
 };
 class Registration : public State {
 public:
+	//create new user
 	Registration();
-	void Execute(User*);
+	void Execute();
 private:
 	void GOTO_StartMenu(ChatEngine*);
 	void GOTO_MainMenu(ChatEngine*, User*);
-private:
-	User* _curent_user;
 };
 class MainMenu : public State {
 public:
+	//awoke ProfileSettings
+	//awoke ChatObserver
+
 	MainMenu();
 	void Execute(User*);
 private:
@@ -75,6 +95,9 @@ private:
 };
 class ChatObserver : public State {
 public:
+	//show new messages senders
+	//contacts list
+	//go to dialog
 	ChatObserver();
 	void Execute(User*);
 private:

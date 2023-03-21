@@ -34,6 +34,7 @@ std::vector<ConversationBase::Message> ConversationBase::ReadConversation(	const
 		GetConversationBase()->_new_message_source[curent_user].end())
 		GetConversationBase()->_new_message_source[curent_user].erase(ck);
 	return GetConversationBase()->GetConversationBaseData()[ck];
+	//
 };
 std::set<ConversationKey> ConversationBase::GetNewMessageSource(const std::string& u) const {
 	return GetConversationBase()->_new_message_source[u];
