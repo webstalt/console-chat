@@ -1,124 +1,118 @@
+//state and singleton patterns
 #pragma once
-#include<string>
-#include<iostream>
-#include"../user/UserBase.h"
-#include"../conversation/ConversationBase.h"
+#include <iostream>
+#include "../conversation/ConversationBase.h"
+#include "../user/UserBase.h"
+class State;
+class ChatEngine {
+public:
+	ChatEngine(ChatEngine&) = delete;//singleton
+	void operator=(const ChatEngine&) = delete;//singleton
+	static ChatEngine* GetChatEngine();//singleton
+	void SetEngineState(State*);
+	void GOTO_StartMenu();
+	void GOTO_RegistrationMenu();
+	void GOTO_MainMenu();
+	void GOTO_ChangeProfileMenu();
+	void GOTO_AllConversations();
+	void GOTO_StartChatting();
+private:
+	class State* _curent_state;
+	static ChatEngine* _chat_engine;//singleton
+	ChatEngine();//singleton
+};
 
-#define UNOUTORISED "Wellcome to console chat!"
-#define MAINMENU "You are in main menu!"
-#define REGISTRARION "You are in registration menu!"
-#define PROFILESETTINGS "You are in profile settings!"
-#define CHATOBSERVER "You are in chat observer menu!"
-#define CHATTING "Chatting!"
-#define SIGNOUT "Signing out..."
-#define EXIT "Exiting from application..."
+class State {
+	virtual void Execute();
+	virtual void GOTO_StartMenu(ChatEngine*);
+	virtual void GOTO_RegistrationMenu(ChatEngine*);
+	virtual void GOTO_MainMenu(ChatEngine*);
+	virtual void GOTO_ChangeProfileMenu(ChatEngine*);
+	virtual void GOTO_AllConversations(ChatEngine*);
+	virtual void GOTO_StartChatting(ChatEngine*);
+};
 
-class ChatEngine;
-class IState
-{
+//further constructors are not necessary
+//function "Execute" runs enterface of class (in perfect case it starts
+//automaticly in GOTO_... functions) 
+class Unautorised : public State {
 public:
-    IState(const std::string& state_name) :_state_name(state_name) {};
-    std::string GetName()const;
-    virtual void Execute() = 0;
-    virtual void DisplayHelp() = 0;
-    virtual void SetState_Unautorise(ChatEngine*);
-    virtual void SetState_Registration(ChatEngine*);
-    virtual void SetState_MainMenu(ChatEngine*);
-    virtual void SetState_ProfileSettings(ChatEngine*);
-    virtual void SetState_ChatObserver(ChatEngine*);
-    virtual void SetState_Chatting(ChatEngine*, std::set <User>);
+	//quite from programm
+	//sign in
+	//awoke RegistrationMenu
+	Unautorised();
+	void Execute() {
+		//
+/*		while (true) {
+			char sw;
+			std::cin >> sw;
+			switch (sw)
+				case 'l':
+				case 'r':
+					ChatEngine::GOTO_RegistrationMenu();
+				case 'q':
+			{
+			default:
+				break;
+			}
+		}*/			
+	};
 private:
-    std::string _state_name;
+	void GOTO_RegistrationMenu(ChatEngine*, User*);
+	void GOTO_MainMenu(ChatEngine*, User*);
 };
-class ChatEngine
-{
+class Registration : public State {
 public:
-    ChatEngine(ChatEngine&) = delete;
-    void operator=(const ChatEngine&) = delete;
-    static ChatEngine* GetChatEngine(IState*);
+	//create new user
+	Registration();
+	void Execute();
+private:
+	void GOTO_StartMenu(ChatEngine*);
+	void GOTO_MainMenu(ChatEngine*, User*);
+};
+class MainMenu : public State {
+public:
+	//awoke ProfileSettings
+	//awoke ChatObserver
 
-    void RunEngine();
-    void SetState(IState*);
-    IState* GetCurentState()const;
-    void SetCurentUser(const User&);
-    User GetCurentUser()const;
-    ~ChatEngine();
+	MainMenu();
+	void Execute(User*);
 private:
-    IState* _curent_state;
-    User _curent_user;
-    static ChatEngine* _chat_engine;
-    ChatEngine(IState* istate) : _curent_state(istate) {};
+	void GOTO_StartMenu(ChatEngine*);
+	void GOTO_ChangeProfileMenu(ChatEngine*, User*);
+	void GOTO_AllConversations(ChatEngine*, User*);
+private:
+	User* _curent_user;
 };
-class Unautorised : public IState
-{
+class ProfileSettings : public State {
 public:
-    Unautorised() : IState(UNOUTORISED) {};
-    virtual void Execute() ;
-    virtual void DisplayHelp();
+	void Execute(User*);
+	ProfileSettings();
 private:
-    virtual void SetState_Unautorise(ChatEngine*) override {};//unexpectable command, does nothing
-    virtual void SetState_ProfileSettings(ChatEngine*)override {};//unexpectable, does nothing
-    virtual void SetState_ChatObserver(ChatEngine*)override {};//unexpectable, does nothing
-    virtual void SetState_Chatting(ChatEngine*, std::set <User>)override {};//unexpectable, does nothing
-    IState* _istate;
+	void GOTO_MainMenu(ChatEngine*, User*);
+private:
+	User* _curent_user;
 };
-class MainMenu : public IState
-{
+class ChatObserver : public State {
 public:
-    MainMenu() : IState(MAINMENU) {}
-    virtual void Execute();
-    virtual void DisplayHelp();
+	//show new messages senders
+	//contacts list
+	//go to dialog
+	ChatObserver();
+	void Execute(User*);
 private:
-    virtual void SetState_Registration(ChatEngine*)override {};//unexpectable command, does nothing
-    virtual void SetState_MainMenu(ChatEngine*)override {}//unexpectable command, does nothing;
-    virtual void SetState_Chatting(ChatEngine*, std::set <User>)override {}//unexpectable command, does nothing;
+	void GOTO_StartMenu(ChatEngine*, User*);
+	void GOTO_StartChatting(ChatEngine*, User*);
+private:
+	User* _curent_user;
 };
-class Registration : public IState
-{
+class Chatting : public State {
 public:
-    Registration() : IState(REGISTRARION) {}
-    virtual void Execute();
-    virtual void DisplayHelp();
+	Chatting(User*);
+	void Execute();
 private:
-    virtual void SetState_Registration(ChatEngine*)override {};//unexpectable command, does nothing
-    virtual void SetState_ProfileSettings(ChatEngine*)override {};//unexpectable command, does nothing
-    virtual void SetState_ChatObserver(ChatEngine*)override {};//unexpectable command, does nothing
-    virtual void SetState_Chatting(ChatEngine*, std::set <User>)override {};//unexpectable command, does nothing
-};
-class ProfileSettings : public IState
-{
-public:
-    ProfileSettings() : IState(PROFILESETTINGS) {}
-    virtual void Execute();
-    virtual void DisplayHelp();
+	void GOTO_StartMenu(ChatEngine*, User*);
+	void GOTO_AllConversations(ChatEngine*, User*);
 private:
-    virtual void SetState_Unautorise(ChatEngine*)override {};//unexpectable command, does nothing
-    virtual void SetState_Registration(ChatEngine*)override {};//unexpectable command, does nothing
-    virtual void SetState_ProfileSettings(ChatEngine*)override {};//unexpectable command, does nothing
-    virtual void SetState_ChatObserver(ChatEngine*)override {};//unexpectable command, does nothing
-    virtual void SetState_Chatting(ChatEngine*, std::set <User>)override {};//unexpectable command, does nothing
-};
-class ChatObserver : public IState
-{
-public:
-    ChatObserver() : IState(CHATOBSERVER) {}
-    virtual void Execute();
-    virtual void DisplayHelp();
-private:
-    virtual void SetState_Registration(ChatEngine*)override {}//unexpectable command, does nothing;
-    virtual void SetState_ProfileSettings(ChatEngine*)override {}//unexpectable command, does nothing;
-    virtual void SetState_ChatObserver(ChatEngine*)override {}//unexpectable command, does nothing;
-};
-class Chatting : public IState
-{
-public:
-    Chatting(std::set <User> curent_key) : IState(CHATTING), _curent_key(curent_key){};
-    virtual void Execute();
-    virtual void DisplayHelp();
-private:
-    virtual void SetState_Unautorise(ChatEngine*)override {}//unexpectable command, does nothing;
-    virtual void SetState_Registration(ChatEngine*)override {}//unexpectable command, does nothing;
-    virtual void SetState_ProfileSettings(ChatEngine*)override {}//unexpectable command, does nothing;
-    virtual void SetState_Chatting(ChatEngine*, std::set <User>)override {}//unexpectable command, does nothing;
-    std::set <User> _curent_key;
+	User* _curent_user;
 };
