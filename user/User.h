@@ -3,6 +3,7 @@
 
 class User {
 public:
+	User() : _name(""), _login(""), _password("") {};;
 	User(	const std::string& name, 
 			const std::string& login, 
 			const std::string& password)
@@ -17,6 +18,8 @@ private:
 	std::string _name;
 	std::string _login;
 	std::string _password;
+protected:
 };
 bool operator < (const User&, const User&);
+bool operator == (const User&, const User&);
  
