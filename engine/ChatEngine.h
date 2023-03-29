@@ -17,7 +17,7 @@ public:
 	void GOTO_AllConversations();
 	void GOTO_StartChatting();
 private:
-	class State* _curent_state;
+	class State* _current_state;
 	static ChatEngine* _chat_engine;//singleton
 	ChatEngine();//singleton
 };
@@ -33,14 +33,14 @@ class State {
 };
 
 //further constructors are not necessary
-//function "Execute" runs enterface of class (in perfect case it starts
-//automaticly in GOTO_... functions) 
-class Unautorised : public State {
+//function "Execute" runs interface of class (in perfect case it starts
+//automaticaly in GOTO_... functions) 
+class Unauthorized : public State {
 public:
-	//quite from programm
+	//quite from program
 	//sign in
 	//awoke RegistrationMenu
-	Unautorised();
+	Unauthorized();
 	void Execute() {
 		//
 /*		while (true) {
@@ -82,7 +82,7 @@ private:
 	void GOTO_ChangeProfileMenu(ChatEngine*, User*);
 	void GOTO_AllConversations(ChatEngine*, User*);
 private:
-	User* _curent_user;
+	User* _current_user;
 };
 class ProfileSettings : public State {
 public:
@@ -91,7 +91,7 @@ public:
 private:
 	void GOTO_MainMenu(ChatEngine*, User*);
 private:
-	User* _curent_user;
+	User* _current_user;
 };
 class ChatObserver : public State {
 public:
@@ -104,7 +104,7 @@ private:
 	void GOTO_StartMenu(ChatEngine*, User*);
 	void GOTO_StartChatting(ChatEngine*, User*);
 private:
-	User* _curent_user;
+	User* _current_user;
 };
 class Chatting : public State {
 public:
@@ -114,5 +114,5 @@ private:
 	void GOTO_StartMenu(ChatEngine*, User*);
 	void GOTO_AllConversations(ChatEngine*, User*);
 private:
-	User* _curent_user;
+	User* _current_user;
 };
