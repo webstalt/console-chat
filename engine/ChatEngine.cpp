@@ -90,16 +90,58 @@ void IState::SetState_Chatting(ChatEngine* state, std::set <User> curent_key) {
 };
 
 void Unautorised::Execute() {
+<<<<<<< HEAD
     ChatEngine* de = ChatEngine::GetChatEngine(new Unautorised());
     de->GetCurentState()->SetState_MainMenu(de);
 };
 void Unautorised::DisplayHelp() {};
+=======
+>>>>>>> 27eea594f32002b1d06db8b46c7f14d8e0fe37ca
 
-void MainMenu::Execute() {};
-void MainMenu::DisplayHelp() {};
+};
+void Unautorised::DisplayHelp() {
+    std::cout << "Press q to exit" << std::endl;
+};
 
-void Registration::Execute() {};
-void Registration::DisplayHelp() {};
+void MainMenu::Execute() {
+
+};
+void MainMenu::DisplayHelp() {
+
+};
+
+void Registration::Execute() {
+    std::cout << 'Enter name' << std::endl;
+    std::cin << name;
+    std::cout << 'name: ' << name << ', Enter login' << std::endl;
+    std::cin << login;
+    std::cout << 'login: ' << login << 'Enter password' << std::endl;
+    std::cin << password;
+    User u(name, login, password);
+    UserBase::AddUser(u);
+    ChatEngine::SetCurentUser(u);
+    std::cout << 'Success' << std::endl;
+    
+    ChatEngine* engine = ChatEngine::GetChatEngine(engine->GetCurentState());
+    engine->GetCurentState()->SetState_MainMenu(engine);
+};
+
+void Registration::DisplayHelp() {
+    std::cout << 'Press q to step back' << std::endl;
+    cin >> a;
+    switch (a)
+    {
+        case 'q':
+            ChatEngine* engine = ChatEngine::GetChatEngine(engine->GetCurentState());
+            engine->GetCurentState()->SetState_MainMenu(engine);
+            break;
+       
+        default:
+            cout << "Command is not recognized" << endl
+                 << " ------ " << endl
+                 << endl;
+    }
+};
 
 void ProfileSettings::Execute() {};
 void ProfileSettings::DisplayHelp() {};
