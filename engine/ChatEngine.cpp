@@ -18,16 +18,17 @@ ChatEngine* ChatEngine::GetChatEngine(IState* state) {
 };
 void ChatEngine::RunEngine() {
     GetChatEngine(_curent_state)->GetCurentState()->SetState_Unautorise(this);
-    while (false) {
+    while (true) {
         _curent_state->Execute();
+        break;
     }
-    GetChatEngine(_curent_state)->GetCurentState()->SetState_Registration(this);
-    GetChatEngine(_curent_state)->GetCurentState()->SetState_MainMenu(this);
-    GetChatEngine(_curent_state)->GetCurentState()->SetState_Unautorise(this);
+    //GetChatEngine(_curent_state)->GetCurentState()->SetState_Registration(this);
+    //GetChatEngine(_curent_state)->GetCurentState()->SetState_MainMenu(this);
+    //GetChatEngine(_curent_state)->GetCurentState()->SetState_Unautorise(this);
     //GetChatEngine(_curent_state)->GetCurentState()->SetState_ProfileSettings(this);
-    GetChatEngine(_curent_state)->GetCurentState()->SetState_ChatObserver(this);
-    std::set <User> n;
-    GetChatEngine(_curent_state)->GetCurentState()->SetState_Chatting(this, n);
+    //GetChatEngine(_curent_state)->GetCurentState()->SetState_ChatObserver(this);
+    //std::set <User> n;
+    //GetChatEngine(_curent_state)->GetCurentState()->SetState_Chatting(this, n);
 }
 void ChatEngine::SetState(IState* state)
 {
@@ -88,7 +89,10 @@ void IState::SetState_Chatting(ChatEngine* state, std::set <User> curent_key) {
     state->SetState(new Chatting(curent_key));
 };
 
-void Unautorised::Execute() {};
+void Unautorised::Execute() {
+    ChatEngine* de = ChatEngine::GetChatEngine(new Unautorised());
+    de->GetCurentState()->SetState_MainMenu(de);
+};
 void Unautorised::DisplayHelp() {};
 
 void MainMenu::Execute() {};

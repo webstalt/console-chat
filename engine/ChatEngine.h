@@ -18,7 +18,7 @@ class IState
 {
 public:
     IState(const std::string& state_name) :_state_name(state_name) {};
-    std::string GetName()const;
+    std::string GetName()const;//бесполезно
     virtual void Execute() = 0;
     virtual void DisplayHelp() = 0;
     virtual void SetState_Unautorise(ChatEngine*);
@@ -28,8 +28,9 @@ public:
     virtual void SetState_ChatObserver(ChatEngine*);
     virtual void SetState_Chatting(ChatEngine*, std::set <User>);
 private:
-    std::string _state_name;
+    std::string _state_name;//бесполезно
 };
+//core class
 class ChatEngine
 {
 public:
@@ -49,6 +50,7 @@ private:
     static ChatEngine* _chat_engine;
     ChatEngine(IState* istate) : _curent_state(istate) {};
 };
+
 class Unautorised : public IState
 {
 public:

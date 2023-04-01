@@ -1,5 +1,4 @@
-#include "./user/UserBase.h"
-#include "./conversation/ConversationBase.h"
+#include "engine/ChatEngine.h"
 #include <iostream>
 
 void UBtest() {
@@ -44,7 +43,7 @@ void CBtest() {
     }
 }
 int main() {
-    //UBtest();
-    CBtest();
+    ChatEngine* de = ChatEngine::GetChatEngine(new Unautorised());
+    de->RunEngine();
     return 0;
 }
