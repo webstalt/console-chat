@@ -44,9 +44,7 @@ void CBtest() {
 }
 int main() {
     CBtest();
-    ChatEngine* de = ChatEngine::GetChatEngine(new ChatObserver());
-    while (true) {
-        de->GetCurentState()->Execute();
-    }
+    ChatEngine* de = ChatEngine::GetChatEngine(new Unautorised());
+    de->RunEngine();
     return 0;
 }

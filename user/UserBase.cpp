@@ -14,7 +14,7 @@ UserBase* UserBase::GetUserBase() {
 	return _user_base;
 }
 
-std::map<std::string, User> UserBase::GetUsers() const
+std::map<std::string, User> UserBase::GetUsers()const
 {
 	return GetUserBase()->_user_base_data;
 };
@@ -24,7 +24,7 @@ void UserBase::AddUser(const User& user)
 	GetUserBase()->_user_base_data[user.GetLogin()] = user;
 };
 
-size_t UserBase::GetUsersAmount() const
+size_t UserBase::GetUsersAmount()const
 {
 	return GetUsers().size();
 };

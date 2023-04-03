@@ -8,7 +8,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
-#define UNOUTORISED "UNOUTORISED"
+#define UNAUTORISED "UNAUTORISED"
 #define MAINMENU "MAINMENU"
 #define REGISTRARION "REGISTRARION"
 #define PROFILESETTINGS "PROFILESETTINGS"
@@ -58,7 +58,7 @@ private:
 class Unautorised : public IState
 {
 public:
-    Unautorised() : IState(UNOUTORISED) {};
+    Unautorised() : IState(UNAUTORISED) {};
     virtual void Execute() ;
     virtual void DisplayHelp();
 private:

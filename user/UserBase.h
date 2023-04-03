@@ -10,9 +10,8 @@ public:
 	static UserBase* GetUserBase();
 	void AddUser(const User&);
 	std::map<std::string, User> GetUsers() const;
-	size_t GetUsersAmount() const;
+	size_t GetUsersAmount()const;
 	bool UserExist(const std::string&) const;
-	User FindUserByLogin(const std::string&);
 private:
 	std::map<std::string,User> _user_base_data;
 	static UserBase* _user_base;
