@@ -62,21 +62,21 @@ public:
     virtual void Execute() ;
     virtual void DisplayHelp();
 private:
-    virtual void SetState_Unautorise(ChatEngine*) override {};//unexpectable command, does nothing
-    virtual void SetState_ProfileSettings(ChatEngine*)override {};//unexpectable, does nothing
-    virtual void SetState_ChatObserver(ChatEngine*)override {};//unexpectable, does nothing
-    virtual void SetState_Chatting(ChatEngine*, const ConversationKey&)override {};//unexpectable, does nothing
+    virtual void SetState_Unautorise(ChatEngine*) override {};//unacceptable command, does nothing
+    virtual void SetState_ProfileSettings(ChatEngine*)override {};//unacceptable command, does nothing
+    virtual void SetState_MainMenu(ChatEngine*)override {}//unacceptable command, does nothing
+    virtual void SetState_Chatting(ChatEngine*, const ConversationKey&)override {};//unacceptable command, does nothing
 };
 class MainMenu : public IState
 {
 public:
-    MainMenu() : IState(MAINMENU) {}
+    MainMenu() : IState(MAINMENU) {};
     virtual void Execute();
     virtual void DisplayHelp();
 private:
-    virtual void SetState_Registration(ChatEngine*)override {};//unexpectable command, does nothing
-    virtual void SetState_MainMenu(ChatEngine*)override {}//unexpectable command, does nothing;
-    virtual void SetState_Chatting(ChatEngine*, const ConversationKey&)override {}//unexpectable command, does nothing;
+    virtual void SetState_Registration(ChatEngine*)override {};//unacceptable command, does nothing
+    virtual void SetState_MainMenu(ChatEngine*)override {}//unacceptable command, does nothing
+    virtual void SetState_Chatting(ChatEngine*, const ConversationKey&)override {}//unacceptable command, does nothing
 };
 class Registration : public IState
 {
@@ -87,39 +87,41 @@ public:
 private:
     virtual void SetState_Registration(ChatEngine*)override {};//unexpectable command, does nothing
     virtual void SetState_ProfileSettings(ChatEngine*)override {};//unexpectable command, does nothing
-    virtual void SetState_ChatObserver(ChatEngine*)override {};//unexpectable command, does nothing
+    virtual void SetState_MainMenu(ChatEngine*)override {};//unexpectable command, does nothing
     virtual void SetState_Chatting(ChatEngine*, const ConversationKey&)override {};//unexpectable command, does nothing
 };
 class ProfileSettings : public IState
 {
 public:
-    ProfileSettings() : IState(PROFILESETTINGS) {}
+    ProfileSettings() : IState(PROFILESETTINGS) {};
     virtual void Execute();
     virtual void DisplayHelp();
 private:
-    virtual void SetState_Unautorise(ChatEngine*)override {};//unexpectable command, does nothing
-    virtual void SetState_Registration(ChatEngine*)override {};//unexpectable command, does nothing
-    virtual void SetState_ProfileSettings(ChatEngine*)override {};//unexpectable command, does nothing
-    virtual void SetState_ChatObserver(ChatEngine*)override {};//unexpectable command, does nothing
-    virtual void SetState_Chatting(ChatEngine*, const ConversationKey&)override {};//unexpectable command, does nothing
+    virtual void SetState_Unautorise(ChatEngine*)override {};//unacceptable command, does nothing
+    virtual void SetState_Registration(ChatEngine*)override {};//unacceptable command, does nothing
+    virtual void SetState_ProfileSettings(ChatEngine*)override {};//unacceptable command, does nothing
+    virtual void SetState_ChatObserver(ChatEngine*)override {};//unacceptable command, does nothing
+    virtual void SetState_Chatting(ChatEngine*, const ConversationKey&)override {};//unacceptable command, does nothing
 };
 class ChatObserver : public IState
 {
-    virtual void SetState_Registration(ChatEngine*)override {}//unexpectable command, does nothing;
-    virtual void SetState_ProfileSettings(ChatEngine*)override {}//unexpectable command, does nothing;
-    virtual void SetState_ChatObserver(ChatEngine*)override {}//unexpectable command, does nothing;
+    virtual void SetState_Registration(ChatEngine*)override {};//unacceptable command, does nothing
+    virtual void SetState_ProfileSettings(ChatEngine*)override {};//unacceptable command, does nothing
+    virtual void SetState_ChatObserver(ChatEngine*)override {};//unacceptable command, does nothing
 public:
-    ChatObserver() : IState(CHATOBSERVER) {}
+    ChatObserver() : IState(CHATOBSERVER) {};
     virtual void Execute();
 private:
     virtual void DisplayHelp();
+    void PrintDialogsHistory(ChatEngine*)const;
+    void Print¿vailableUsers(ChatEngine*)const;
 };
 class Chatting : public IState
 {
-    virtual void SetState_Unautorise(ChatEngine*)override {}//unexpectable command, does nothing;
-    virtual void SetState_Registration(ChatEngine*)override {}//unexpectable command, does nothing;
-    virtual void SetState_ProfileSettings(ChatEngine*)override {}//unexpectable command, does nothing;
-    virtual void SetState_Chatting(ChatEngine*, const ConversationKey&)override {}//unexpectable command, does nothing;
+    virtual void SetState_Unautorise(ChatEngine*)override {};//unacceptable command, does nothing
+    virtual void SetState_Registration(ChatEngine*)override {};//unacceptable command, does nothing
+    virtual void SetState_ProfileSettings(ChatEngine*)override {};//unacceptable command, does nothing
+    virtual void SetState_Chatting(ChatEngine*, const ConversationKey&)override {};//unacceptable command, does nothing
 public:
     Chatting(const ConversationKey& curent_key) : IState(CHATTING), _curent_key(curent_key){};
     virtual void Execute();

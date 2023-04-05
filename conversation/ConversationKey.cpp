@@ -7,7 +7,12 @@ std::string ConversationKey::GetAlias()const {
 	return this->_alias;
 };
 bool operator < (const ConversationKey& c_key1, const ConversationKey& c_key2) {
-	if (c_key1.GetAlias() < c_key2.GetAlias())
+	if (c_key1.GetKey() < c_key2.GetKey())
+		return true;
+	return false;
+};
+bool operator == (const ConversationKey& c_key1, const ConversationKey& c_key2) {
+	if (c_key1.GetKey() == c_key2.GetKey())
 		return true;
 	return false;
 };

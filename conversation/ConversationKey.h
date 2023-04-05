@@ -13,3 +13,4 @@ private:
 	std::string _alias;
 };
 bool operator < (const ConversationKey&, const ConversationKey&);
+bool operator == (const ConversationKey&, const ConversationKey&);

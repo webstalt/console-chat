@@ -16,14 +16,15 @@ ConversationBase* ConversationBase::GetConversationBase() {
 };
 void ConversationBase::WriteMessage(const std::string& curent_user, 
 									const ConversationKey& to,
-									const std::string& s) {
-	GetConversationBase()->_conversation_base_data[to].push_back({ s,curent_user,false });
-	ConversationKey extended_key(to);
-	for (const auto& it : extended_key.GetKey()) {
+									const std::string& message) {
+	to.GetKey().insert(curent_user);
+	GetConversationBase()->_conversation_base_data[to].push_back({ message,curent_user,false });
+	for (const auto& it : to.GetKey()) {
+		GetConversationBase()->_conversation_history[it].insert(to);
 		if (it == curent_user) {
 			continue;
 		}
-		GetConversationBase()->GetNewMessageSource(it).insert(to);
+		GetConversationBase()->_new_message_source[it].insert(to);
 	}
 };
 std::vector<ConversationBase::Message> ConversationBase::ReadConversation(	const std::string& curent_user,
@@ -36,6 +37,9 @@ std::vector<ConversationBase::Message> ConversationBase::ReadConversation(	const
 std::set<ConversationKey> ConversationBase::GetNewMessageSource(const std::string& u) const {
 	return GetConversationBase()->_new_message_source[u];
 };
+std::set<ConversationKey> ConversationBase::GetConversationHistory(const std::string& u)const {
+	return GetConversationBase()->_conversation_history[u];
+};
 size_t ConversationBase::GetNewMessageCounter(const std::string& u) const {
 	return GetNewMessageSource(u).size();
 };
@@ -46,6 +50,12 @@ ConversationKey ConversationBase::FindConversationKey(const std::string& alias) 
 		}
 	}
 	return { {},{} };
+};
+bool ConversationBase::ConversationExist(const ConversationKey& c_key)const {
+	if (GetConversationBase()->_conversation_base_data.find(c_key) == GetConversationBase()->_conversation_base_data.end()) {
+		return false;
+	}
+	return true;
 };
 
 

@@ -8,7 +8,6 @@
 #include <exception>
 
 
-bool operator < (const ConversationKey&, const ConversationKey&);
 class ConversationBase {
 public:
 	struct Message {
@@ -23,14 +22,19 @@ public:
 
 	//from-{to}-message
 	void WriteMessage(const std::string&, const ConversationKey&, const std::string&);
+	//from-message
+	void WriteMessageAll(const std::string&, const std::string&);
 	//key of conversation
 	std::vector<Message> ReadConversation(const std::string&, const ConversationKey&) const;
 	std::set<ConversationKey> GetNewMessageSource(const std::string&)const;
+	std::set<ConversationKey> GetConversationHistory(const std::string&)const;
 	size_t GetNewMessageCounter(const std::string&) const;
 	ConversationKey FindConversationKey(const std::string&);
+	bool ConversationExist(const ConversationKey&)const;
 private:
 	ConversationBase();
 	static ConversationBase* _conversation_base;
 	std::map <ConversationKey, std::vector<Message>> _conversation_base_data;
 	std::map <std::string, std::set<ConversationKey>>_new_message_source;
+	std::map <std::string, std::set<ConversationKey>>_conversation_history;
 };

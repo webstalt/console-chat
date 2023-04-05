@@ -13,9 +13,13 @@ void UBtest() {
     ub->AddUser({ "Anton", "bacravaj", "sa11" });
     std::cout << ub->GetUsersAmount() << std::endl;
     ub1->AddUser({ "Maria", "webstalt", "sa113sa" });
+
+    //ub1 and ub pointing to the same object of UserBase class
     std::cout << ub->GetUsersAmount() << " " << ub->GetUserBase() << std::endl;
     std::cout << ub1->GetUsersAmount() << " " << ub1->GetUserBase() << std::endl;
-    //ub1 and ub pointing to the same object of UserBase class 
+
+    ub->ChangeName(ub->GetUsers()[u1.GetLogin()], "name2");
+    ub->ChangePassword(ub->GetUsers()[u1.GetLogin()], "pass1");
 }
 void CBtest() {
     UserBase* ub = UserBase::GetUserBase();
@@ -43,7 +47,6 @@ void CBtest() {
     }
 }
 int main() {
-    CBtest();
     ChatEngine* de = ChatEngine::GetChatEngine(new Unautorised());
     de->RunEngine();
     return 0;
