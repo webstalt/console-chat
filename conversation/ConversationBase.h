@@ -5,8 +5,8 @@
 #include <string>
 #include <map>
 #include <set>
-#include <exception>
-
+#include <iostream>
+#define KEY_TO_ALL { {"ALL"}, "@ALL"}
 
 class ConversationBase {
 public:
@@ -25,6 +25,8 @@ public:
 	//from-message
 	void WriteMessageAll(const std::string&, const std::string&);
 	//key of conversation
+	void ShowMessage(const std::string&,const ConversationKey&) const;
+	void ShowMessageAll() const;
 	std::vector<Message> ReadConversation(const std::string&, const ConversationKey&) const;
 	std::set<ConversationKey> GetNewMessageSource(const std::string&)const;
 	std::set<ConversationKey> GetConversationHistory(const std::string&)const;

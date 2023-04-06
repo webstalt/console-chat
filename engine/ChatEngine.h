@@ -1,6 +1,7 @@
 #pragma once
 #include<string>
 #include<iostream>
+#include <cstdlib>
 #include"../user/UserBase.h"
 #include"../conversation/ConversationBase.h"
 
