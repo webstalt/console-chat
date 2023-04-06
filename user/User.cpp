@@ -5,15 +5,15 @@ bool operator < (const User& c1, const User& c2)
 };
 void User :: SetName(const std::string& name)
 {
-	_name = name;
+	this->_name = name;
 };
 void User :: SetLogin(const std::string& login)
 {
-	_login = login;
+	this->_login = login;
 };
 void User :: SetPassword(const std::string& password)
 {
-	_password = password;
+	this->_password = password;
 };
 std::string User::GetName() const 
 {

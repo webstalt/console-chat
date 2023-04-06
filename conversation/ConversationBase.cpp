@@ -1,8 +1,6 @@
 #include "ConversationBase.h"
 
-bool operator < (const ConversationKey& kkey1, const ConversationKey& kkey2) {
-	return kkey1._conversation_key < kkey2._conversation_key;
-};
+
 ConversationBase::ConversationBase() {
 	std::map <ConversationKey, std::vector<ConversationBase::Message>> _conversation_base_data;
 };
@@ -18,10 +16,11 @@ ConversationBase* ConversationBase::GetConversationBase() {
 };
 void ConversationBase::WriteMessage(const std::string& curent_user, 
 									const ConversationKey& to,
-									const std::string& s) {
-	GetConversationBase()->_conversation_base_data[to].push_back({ s,curent_user,false });
-	ConversationKey extended_key(to);
-	for (const auto& it : extended_key._conversation_key) {
+									const std::string& message) {
+	to.GetKey().insert(curent_user);
+	GetConversationBase()->_conversation_base_data[to].push_back({ message,curent_user,false });
+	for (const auto& it : to.GetKey()) {
+		GetConversationBase()->_conversation_history[it].insert(to);
 		if (it == curent_user) {
 			continue;
 		}
@@ -34,13 +33,29 @@ std::vector<ConversationBase::Message> ConversationBase::ReadConversation(	const
 		GetConversationBase()->_new_message_source[curent_user].end())
 		GetConversationBase()->_new_message_source[curent_user].erase(ck);
 	return GetConversationBase()->GetConversationBaseData()[ck];
-	//
 };
 std::set<ConversationKey> ConversationBase::GetNewMessageSource(const std::string& u) const {
 	return GetConversationBase()->_new_message_source[u];
 };
+std::set<ConversationKey> ConversationBase::GetConversationHistory(const std::string& u)const {
+	return GetConversationBase()->_conversation_history[u];
+};
 size_t ConversationBase::GetNewMessageCounter(const std::string& u) const {
 	return GetNewMessageSource(u).size();
+};
+ConversationKey ConversationBase::FindConversationKey(const std::string& alias) {
+	for (const auto& it : this->GetConversationBaseData()) {
+		if (it.first.GetAlias() == alias) {
+			return it.first;
+		}
+	}
+	return { {},{} };
+};
+bool ConversationBase::ConversationExist(const ConversationKey& c_key)const {
+	if (GetConversationBase()->_conversation_base_data.find(c_key) == GetConversationBase()->_conversation_base_data.end()) {
+		return false;
+	}
+	return true;
 };
 
 
