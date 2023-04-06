@@ -2,7 +2,7 @@
 
 class ChatEngine;
 class IState;
-class Unautorised;
+class Unauthorized;
 class MainMenu;
 class Registration;
 class ProfileSettings;
@@ -17,14 +17,14 @@ ChatEngine* ChatEngine::GetChatEngine(IState* state) {
     return _chat_engine;
 };
 void ChatEngine::RunEngine() {
-    GetChatEngine(_curent_state)->GetCurentState()->SetState_Unautorise(this);
+    GetChatEngine(_curent_state)->GetCurentState()->SetState_Unauthorize(this);
     while (true) {
         _curent_state->Execute();
         break;
     }
     //GetChatEngine(_curent_state)->GetCurentState()->SetState_Registration(this);
     //GetChatEngine(_curent_state)->GetCurentState()->SetState_MainMenu(this);
-    //GetChatEngine(_curent_state)->GetCurentState()->SetState_Unautorise(this);
+    //GetChatEngine(_curent_state)->GetCurentState()->SetState_Unauthorize(this);
     //GetChatEngine(_curent_state)->GetCurentState()->SetState_ProfileSettings(this);
     //GetChatEngine(_curent_state)->GetCurentState()->SetState_ChatObserver(this);
     //std::set <User> n;
@@ -41,8 +41,8 @@ IState* ChatEngine::GetCurentState()const
     return GetChatEngine(_curent_state)->_curent_state;
 }
 void ChatEngine::SetCurentUser(const User& user) {
-    if (ChatEngine::GetChatEngine(_curent_state)->GetCurentState()->GetName() != UNOUTORISED) {
-        std::exception;//can be awoked only while regitrsration
+    if (ChatEngine::GetChatEngine(_curent_state)->GetCurentState()->GetName() != UNAUTHORIZED) {
+        std::exception;//can be evoked only while regitsration
     }
     if (user.GetLogin().empty() || 
         user.GetName().empty() ||
@@ -65,8 +65,8 @@ std::string IState::GetName()const
 {
     return _state_name;
 };
-void IState::SetState_Unautorise(ChatEngine* state) {
-    state->SetState(new Unautorised());
+void IState::SetState_Unauthorize(ChatEngine* state) {
+    state->SetState(new Unauthorized());
 };
 void IState::SetState_Registration(ChatEngine* state) {
     std::cout << "Going to registration menu..." << std::endl;
@@ -89,18 +89,26 @@ void IState::SetState_Chatting(ChatEngine* state, std::set <User> curent_key) {
     state->SetState(new Chatting(curent_key));
 };
 
-void Unautorised::Execute() {
-<<<<<<< HEAD
-    ChatEngine* de = ChatEngine::GetChatEngine(new Unautorised());
+void Unauthorized::Execute() {
+    ChatEngine* de = ChatEngine::GetChatEngine(new Unauthorized());
     de->GetCurentState()->SetState_MainMenu(de);
 };
-void Unautorised::DisplayHelp() {};
-=======
->>>>>>> 27eea594f32002b1d06db8b46c7f14d8e0fe37ca
 
-};
-void Unautorised::DisplayHelp() {
+void Unauthorized::DisplayHelp() {
     std::cout << "Press q to exit" << std::endl;
+    cin >> a;
+    switch (a)
+    {
+        case 'q':
+            ChatEngine* engine = ChatEngine::GetChatEngine(engine->GetCurentState());
+            engine->GetCurentState()->SetState_MainMenu(engine);
+            break;
+       
+        default:
+            cout << "Command is not recognized" << endl
+                 << " ------ " << endl
+                 << endl;
+    }
 };
 
 void MainMenu::Execute() {
@@ -143,8 +151,12 @@ void Registration::DisplayHelp() {
     }
 };
 
-void ProfileSettings::Execute() {};
-void ProfileSettings::DisplayHelp() {};
+void ProfileSettings::Execute() {
+
+};
+void ProfileSettings::DisplayHelp() {
+    
+};
 
 void ChatObserver::Execute() {};
 void ChatObserver::DisplayHelp() {};

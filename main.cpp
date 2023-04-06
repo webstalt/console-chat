@@ -43,7 +43,7 @@ void CBtest() {
     }
 }
 int main() {
-    ChatEngine* de = ChatEngine::GetChatEngine(new Unautorised());
+    ChatEngine* de = ChatEngine::GetChatEngine(new Unauthorized());
     de->RunEngine();
     return 0;
 }
