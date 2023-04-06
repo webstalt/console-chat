@@ -40,4 +40,4 @@
 Cовместная работа: ChatEngine. 
 
 Созванивались по два раза в неделю для продумывания концепции, решения вопросов и проблем, шаринга знаний и работы в режиме парного программирования.
-![state_map](https://github.com/bacravaj/webstalt/console-chat/raw/main/state_map.png)
+![state_map](https://github.com/webstalt/console-chat/raw/main/state_map.png)
