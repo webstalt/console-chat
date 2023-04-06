@@ -95,10 +95,10 @@ void Unautorised::Execute() {
                 std::cout << "this user doesn't exist!" << std::endl;
                 break;
             }
-            std::cout << "enter password: ";
             int attempts = 3;
             while (attempts--)
             {
+                std::cout << "enter password: ";
                 std::cin >> password;
                 if (u_base->GetUsers()[login].GetPassword() == password) {
                     std::cout << "signing in..." << std::endl;
@@ -321,12 +321,15 @@ void ChatObserver::Execute() {
     ChatEngine* engine = ChatEngine::GetChatEngine(this);
     UserBase* u_base = UserBase::GetUserBase();
     ConversationBase* c_base = ConversationBase::GetConversationBase();
+
     this->DisplayHelp();
+    c_base->ShowMessageAll();
+    std::cout << std::endl;
     if (c_base->GetNewMessageCounter(engine->GetCurentUser().GetLogin()) == 0) {
-        std::cout << engine->GetCurentUser().GetName() << ", you haven't got new message/s!" << std::endl;
+        std::cout << engine->GetCurentUser().GetName() << ", you haven't got new private message/s!" << std::endl;
     }
     else {
-        std::cout << engine->GetCurentUser().GetName() << ", you have new message/s from " << c_base->GetNewMessageCounter(engine->GetCurentUser().GetLogin()) << " converstations:" << std::endl;
+        std::cout << engine->GetCurentUser().GetName() << ", you have new private message/s from " << c_base->GetNewMessageCounter(engine->GetCurentUser().GetLogin()) << " converstations:" << std::endl;
         int counter = 0;
         for (const auto& msg_source: c_base->GetNewMessageSource(engine->GetCurentUser().GetLogin()))
         {
@@ -359,19 +362,14 @@ void ChatObserver::Execute() {
                 while (true)
                 {
                     std::string message_text;
-                    std::cin >> message_text;
+                    std::getline(std::cin, message_text);
                     if (message_text == "~end") {
                         this->DisplayHelp();
                         break;
                     }
-                    ConversationKey c_key = { {engine->GetCurentUser().GetLogin()} , "@ALL" };
-                    message_text.append(" /*sended to @ALL*/");
-                    c_base->GetConversationBaseData()[c_key].push_back({ message_text,engine->GetCurentUser().GetLogin(),false});
-                    for (auto& recipient : u_base->GetUsers()) {
-                        if (recipient.first != engine->GetCurentUser().GetLogin()) {
-                            c_base->GetConversationBase()->GetNewMessageSource(recipient.first).insert(c_key);
-                        }
-                        c_base->GetConversationBase()->GetConversationHistory(recipient.first).insert(c_key);
+                    if (!message_text.empty()) {
+                        message_text.append(" /*sended to @ALL*/");
+                        c_base->WriteMessageAll(engine->GetCurentUser().GetLogin(), message_text);
                     }
                 }
             }
@@ -390,6 +388,7 @@ void ChatObserver::Execute() {
             if (!c_base->FindConversationKey(alias).GetAlias().empty()) {
                 std::cout << "going to existing conversation..." << std::endl;
                 this->SetState_Chatting(engine, c_base->FindConversationKey(alias));
+                break;
             }
             std::cout << "Creation of new conversation: input logins of recipients:" << std::endl;
             std::cout << "1. input '~end' twice to end inputing" << std::endl;
@@ -526,31 +525,21 @@ void Chatting::Execute() {
     ConversationBase* c_base = ConversationBase::GetConversationBase();
 
     DisplayHelp();
-    bool new_messages = false;
-    for (const auto& msg : c_base->GetConversationBaseData()[this->GetCurentKey()]) {
-        if (msg._read_flag && new_messages && msg._author != engine->GetCurentUser().GetLogin()) {
-            new_messages = false;
-            std::cout << "========NEW MESSAGES========" << std::endl;
-        }
-        if (msg._author != engine->GetCurentUser().GetLogin()) {
-            msg._read_flag == true;
-        }
-        std::cout << msg._author << ": " << msg._content << std::endl;
-    }
+    c_base->ShowMessage(engine->GetCurentUser().GetLogin(), this->GetCurentKey());
     std::string message_content;
-    std::cout << engine->GetCurentUser().GetLogin() << ": ";
     while (engine->GetCurentState()->GetName() == CHATTING) {
-        //std::cout << engine->GetCurentUser().GetLogin() << ": ";
-        std::cin >> message_content;
+        std::getline(std::cin, message_content);
         if (message_content == "~end") {
             this->SetState_ChatObserver(engine);
         }
         else if (message_content == "~inf") {
             DisplayHelp();
         }
-        else {
+        else if (!message_content.empty()) {
             c_base->WriteMessage(engine->GetCurentUser().GetLogin(), this->GetCurentKey(), message_content);
         }
+        if (message_content != "~end")
+            std::cout << engine->GetCurentUser().GetLogin() << ": ";
     }
 };
 void Chatting::DisplayHelp() {

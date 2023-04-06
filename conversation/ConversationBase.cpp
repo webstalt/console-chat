@@ -27,6 +27,33 @@ void ConversationBase::WriteMessage(const std::string& curent_user,
 		GetConversationBase()->_new_message_source[it].insert(to);
 	}
 };
+void ConversationBase::WriteMessageAll(const std::string& author, const std::string& message) {
+	GetConversationBase()->_conversation_base_data[KEY_TO_ALL].push_back({message , author , true});
+};
+void ConversationBase::ShowMessage(const std::string& curent_user_login, const ConversationKey& c_key) const {
+	bool new_messages = true;
+	for (const auto& msg : GetConversationBase()->_conversation_base_data[c_key]) {
+		if (!msg._read_flag && new_messages && msg._author != curent_user_login) {
+			new_messages = false;
+			std::cout << "========NEW MESSAGES========" << std::endl;
+		}
+		if (msg._author != curent_user_login) {
+			msg._read_flag == true;
+		}
+		std::cout << msg._author << ": " << msg._content << std::endl;
+	}
+	GetConversationBase()->_new_message_source[curent_user_login].erase(c_key);
+};
+void ConversationBase::ShowMessageAll() const{
+	if (!GetConversationBase()->_conversation_base_data[KEY_TO_ALL].empty()) {
+		std::cout << "Messages to all users:" << std::endl;
+	}
+
+	for (const auto& msg : GetConversationBase()->_conversation_base_data[KEY_TO_ALL]) {
+		std::cout << msg._author << ": " << msg._content << std::endl;
+	}
+	std::cout << std::endl;
+};
 std::vector<ConversationBase::Message> ConversationBase::ReadConversation(	const std::string& curent_user,
 																			const ConversationKey& ck) const {
 	if (GetConversationBase()->_new_message_source[curent_user].find(ck) !=
