@@ -1,6 +1,7 @@
 #include "engine/ChatEngine.h"
 #include <iostream>
 
+//function for checking core UserBase functions
 void UBtest() {
     UserBase* ub = UserBase::GetUserBase();
     User u("u", "logintolik", "123321");
@@ -21,6 +22,7 @@ void UBtest() {
     ub->ChangeName(ub->GetUsers()[u1.GetLogin()], "name2");
     ub->ChangePassword(ub->GetUsers()[u1.GetLogin()], "pass1");
 }
+//function for checking core ConversationBase functions
 void CBtest() {
     UserBase* ub = UserBase::GetUserBase();
     User u0("u", "logintolik", "123321");

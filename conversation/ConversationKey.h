@@ -9,8 +9,8 @@ public:
 	std::set <std::string> GetKey()const;
 	std::string GetAlias()const;
 private:
-	std::set <std::string> _conversation_key;
-	std::string _alias;
+	std::set <std::string> _conversation_key;//unique key of conversation
+	std::string _alias;//alias, helps to identify group chat and messages to @ALL
 };
 bool operator < (const ConversationKey&, const ConversationKey&);
 bool operator == (const ConversationKey&, const ConversationKey&);

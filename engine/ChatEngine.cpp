@@ -356,7 +356,7 @@ void ChatObserver::Execute() {
         case 'd': {
             std::string to;
             std::cin >> to;
-            //sends message to all users
+            //sends message to all users; doesn't throw chatting state
             if (to == "@ALL") {
                 std::cout << "Input messages to all users; input '~end' to end inputting" << std::endl;
                 while (true)
@@ -373,7 +373,7 @@ void ChatObserver::Execute() {
                     }
                 }
             }
-            //transition to dialog
+            //transition to dialog; throw chatting state
             else if (u_base->UserExist(engine->GetCurentUser().GetLogin())) {
                 this->SetState_Chatting(engine, {{to,engine->GetCurentUser().GetLogin()},""});
             }
