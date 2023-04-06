@@ -131,7 +131,7 @@ void Unauthorized::DisplayHelp() {
     std::cout << "start menu:" << std::endl;
     std::cout << "1. to terminate app, write command: q" << std::endl;
     std::cout << "2. to sign in, write command: s" << std::endl;
-    std::cout << "3. to registrate new user, write command: r" << std::endl;
+    std::cout << "3. to create a new user, write command: r" << std::endl;
     std::cout << "4. to show help, write command: i" << std::endl;
     std::cout << std::endl;
 };
@@ -171,9 +171,9 @@ void MainMenu::Execute() {
 void MainMenu::DisplayHelp() {
     std::cout << std::endl;
     std::cout << "main menu:" << std::endl;
-    std::cout << "1. to sign out, write comand: s" << std::endl;
-    std::cout << "2. to go to profilesettings, write comand: p" << std::endl;
-    std::cout << "3. for chatting, write comand: c" << std::endl;
+    std::cout << "1. to sign out, write command: s" << std::endl;
+    std::cout << "2. to go to profilesettings, write command: p" << std::endl;
+    std::cout << "3. for chatting, write command: c" << std::endl;
     std::cout << "4. to show help, write command: i" << std::endl;
     std::cout << std::endl;
 };
@@ -245,7 +245,7 @@ void Registration::Execute() {
 void Registration::DisplayHelp() {
     std::cout << std::endl;
     std::cout << "registration menu:" << std::endl;
-    std::cout << "1. to go to autorisation menu, write comand: b" << std::endl;
+    std::cout << "1. to go to authorization menu, write command: b" << std::endl;
     std::cout << "2. to create new user, write command: n" << std::endl;
     std::cout << "3. to show help, write command: i" << std::endl;
     std::cout << std::endl;
@@ -273,7 +273,7 @@ void ProfileSettings::Execute() {
                 std::cout << "new passwords are not equal!" << std::endl;
             }
             else if (new_passwrod1 == new_passwrod2 && new_passwrod1.empty()) {
-                std::cout << "password cant be empty!" << std::endl;
+                std::cout << "password can't be empty!" << std::endl;
             }
             else {
                 u_base->ChangePassword(u_base->GetUsers()[engine->GetCurentUser().GetLogin()], new_passwrod1);
@@ -310,9 +310,9 @@ void ProfileSettings::Execute() {
 void ProfileSettings::DisplayHelp() {
     std::cout << std::endl;
     std::cout << "profileSettings menu:" << std::endl;
-    std::cout << "1. to go to back to chat main menu, write comand: m" << std::endl;
-    std::cout << "2. to change password, write comand: p" << std::endl;
-    std::cout << "3. to change name, write comand: n" << std::endl;
+    std::cout << "1. to go to back to chat main menu, write command: m" << std::endl;
+    std::cout << "2. to change password, write command: p" << std::endl;
+    std::cout << "3. to change name, write command: n" << std::endl;
     std::cout << "4. to show help, write command: i" << std::endl;
     std::cout << std::endl;
 };
@@ -418,7 +418,7 @@ void ChatObserver::Execute() {
                 }
                 else {
                     key.insert(user_login);
-                    std::cout << user_login << " successfuly added to conversation" << std::endl;
+                    std::cout << user_login << " successfully added to conversation" << std::endl;
                 }
             }
             key.insert(engine->GetCurentUser().GetLogin());
@@ -444,7 +444,7 @@ void ChatObserver::Execute() {
             break;
         }
         case 's': {
-            std::cout << "Do you realy want to sign out? Print 'yes' to confirm." << std::endl;
+            std::cout << "Do you really want to sign out? Print 'yes' to confirm." << std::endl;
             std::string confirmation;
             std::cin >> confirmation;
             if (confirmation == "yes") {
@@ -468,15 +468,15 @@ void ChatObserver::Execute() {
 void ChatObserver::DisplayHelp() {
     std::cout << std::endl;
     std::cout << "chat observer menu:" <<std::endl;
-    std::cout << "1. to open dialog, write comand (no matter" << std::endl;
+    std::cout << "1. to open dialog, write command (no matter" << std::endl;
     std::cout << "does exist it or not): d to_user" << std::endl;
-    std::cout << "2. to open conversation, write comand (no matter" << std::endl;
+    std::cout << "2. to open conversation, write command (no matter" << std::endl;
     std::cout << "does exist it or not): c alias" << std::endl;
     std::cout << "3. to write messages to all users: d @ALL" << std::endl;
     std::cout << "4. to show available users, write command: u" << std::endl;
     std::cout << "5. to show all history dialogs, write command: h" << std::endl;
-    std::cout << "6. to go to main menu, write comand: m" << std::endl;
-    std::cout << "7. to sign out, write comand: s" << std::endl;
+    std::cout << "6. to go to main menu, write command: m" << std::endl;
+    std::cout << "7. to sign out, write command: s" << std::endl;
     std::cout << "8. to show help, write command: i" << std::endl;
     std::cout << std::endl;
 };
