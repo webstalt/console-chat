@@ -2,7 +2,7 @@
 
 class ChatEngine;
 class IState;
-class Unauthorized;
+class Unautorised;
 class MainMenu;
 class Registration;
 class ProfileSettings;
@@ -17,7 +17,7 @@ ChatEngine* ChatEngine::GetChatEngine(IState* state) {
     return _chat_engine;
 };
 void ChatEngine::RunEngine() {
-    GetChatEngine(_curent_state)->GetCurentState()->SetState_Unauthorize(this);
+    GetChatEngine(_curent_state)->GetCurentState()->SetState_Unautorise(this);
     while (true) {
         _curent_state->Execute();
     }
@@ -47,9 +47,9 @@ std::string IState::GetName()const
 {
     return _state_name;
 };
-void IState::SetState_Unauthorize(ChatEngine* state) {
+void IState::SetState_Unautorise(ChatEngine* state) {
     std::cout << "going to start menu..." << std::endl;
-    state->SetState(new Unauthorized());
+    state->SetState(new Unautorised());
 };
 void IState::SetState_Registration(ChatEngine* state) {
     std::cout << "going to registration menu..." << std::endl;
@@ -72,12 +72,12 @@ void IState::SetState_Chatting(ChatEngine* state, const ConversationKey& curent_
     state->SetState(new Chatting(curent_key));
 };
 
-void Unauthorized::Execute() {
+void Unautorised::Execute() {
     ChatEngine* engine = ChatEngine::GetChatEngine(this);
     UserBase* u_base = UserBase::GetUserBase();
 
     DisplayHelp();
-    while (engine->GetCurentState()->GetName() == UNAUTHORIZED) {
+    while (engine->GetCurentState()->GetName() == UNAUTORISED) {
         std::cout << "input command: ";
         char command;
         std::cin >> command;
@@ -126,12 +126,12 @@ void Unauthorized::Execute() {
         }
     }
 };
-void Unauthorized::DisplayHelp() {
+void Unautorised::DisplayHelp() {
     std::cout << std::endl;
     std::cout << "start menu:" << std::endl;
     std::cout << "1. to terminate app, write command: q" << std::endl;
     std::cout << "2. to sign in, write command: s" << std::endl;
-    std::cout << "3. to create a new user, write command: r" << std::endl;
+    std::cout << "3. to registrate new user, write command: r" << std::endl;
     std::cout << "4. to show help, write command: i" << std::endl;
     std::cout << std::endl;
 };
@@ -147,7 +147,7 @@ void MainMenu::Execute() {
         {
         case 's': {
             engine->SetCurentUser({"", "", ""});
-            this->SetState_Unauthorize(engine);
+            this->SetState_Unautorise(engine);
             break;
         }
         case 'p': {
@@ -171,9 +171,9 @@ void MainMenu::Execute() {
 void MainMenu::DisplayHelp() {
     std::cout << std::endl;
     std::cout << "main menu:" << std::endl;
-    std::cout << "1. to sign out, write command: s" << std::endl;
-    std::cout << "2. to go to profilesettings, write command: p" << std::endl;
-    std::cout << "3. for chatting, write command: c" << std::endl;
+    std::cout << "1. to sign out, write comand: s" << std::endl;
+    std::cout << "2. to go to profilesettings, write comand: p" << std::endl;
+    std::cout << "3. for chatting, write comand: c" << std::endl;
     std::cout << "4. to show help, write command: i" << std::endl;
     std::cout << std::endl;
 };
@@ -190,7 +190,7 @@ void Registration::Execute() {
         switch (command)
         {
         case 'b':{
-            this->SetState_Unauthorize(engine);
+            this->SetState_Unautorise(engine);
             break;
         }
         case 'n':{
@@ -226,7 +226,7 @@ void Registration::Execute() {
                 }
                 else if (transition == 'n') {
                     engine->SetCurentUser(new_user);
-                    this->SetState_Unauthorize(engine);
+                    this->SetState_Unautorise(engine);
                     break;
                 }
             }
@@ -245,7 +245,7 @@ void Registration::Execute() {
 void Registration::DisplayHelp() {
     std::cout << std::endl;
     std::cout << "registration menu:" << std::endl;
-    std::cout << "1. to go to authorization menu, write command: b" << std::endl;
+    std::cout << "1. to go to autorisation menu, write comand: b" << std::endl;
     std::cout << "2. to create new user, write command: n" << std::endl;
     std::cout << "3. to show help, write command: i" << std::endl;
     std::cout << std::endl;
@@ -273,7 +273,7 @@ void ProfileSettings::Execute() {
                 std::cout << "new passwords are not equal!" << std::endl;
             }
             else if (new_passwrod1 == new_passwrod2 && new_passwrod1.empty()) {
-                std::cout << "password can't be empty!" << std::endl;
+                std::cout << "password cant be empty!" << std::endl;
             }
             else {
                 u_base->ChangePassword(u_base->GetUsers()[engine->GetCurentUser().GetLogin()], new_passwrod1);
@@ -310,9 +310,9 @@ void ProfileSettings::Execute() {
 void ProfileSettings::DisplayHelp() {
     std::cout << std::endl;
     std::cout << "profileSettings menu:" << std::endl;
-    std::cout << "1. to go to back to chat main menu, write command: m" << std::endl;
-    std::cout << "2. to change password, write command: p" << std::endl;
-    std::cout << "3. to change name, write command: n" << std::endl;
+    std::cout << "1. to go to back to chat main menu, write comand: m" << std::endl;
+    std::cout << "2. to change password, write comand: p" << std::endl;
+    std::cout << "3. to change name, write comand: n" << std::endl;
     std::cout << "4. to show help, write command: i" << std::endl;
     std::cout << std::endl;
 };
@@ -410,14 +410,14 @@ void ChatObserver::Execute() {
                     }
                 }
                 else if (user_login == "~users") {
-                    PrintAvailableUsers(engine);
+                    Print¿vailableUsers(engine);
                 }
                 else if (u_base->UserExist(user_login) == false || user_login == engine->GetCurentUser().GetLogin()) {
                     std::cout << "unavailable user" << std::endl;
                 }
                 else {
                     key.insert(user_login);
-                    std::cout << user_login << " successfully added to conversation" << std::endl;
+                    std::cout << user_login << " successfuly added to conversation" << std::endl;
                 }
             }
             key.insert(engine->GetCurentUser().GetLogin());
@@ -431,7 +431,7 @@ void ChatObserver::Execute() {
             break;
         }
         case 'u': {
-            PrintAvailableUsers(engine);
+            Print¿vailableUsers(engine);
             break;
         }
         case 'h': {
@@ -443,12 +443,12 @@ void ChatObserver::Execute() {
             break;
         }
         case 's': {
-            std::cout << "Do you really want to sign out? Print 'yes' to confirm." << std::endl;
+            std::cout << "Do you realy want to sign out? Print 'yes' to confirm." << std::endl;
             std::string confirmation;
             std::cin >> confirmation;
             if (confirmation == "yes") {
                 engine->SetCurentUser({ "","","" });
-                this->SetState_Unauthorize(engine);
+                this->SetState_Unautorise(engine);
                 break;
             }
             std::cout << "You are still in chat observer..." << std::endl;
@@ -467,15 +467,15 @@ void ChatObserver::Execute() {
 void ChatObserver::DisplayHelp() {
     std::cout << std::endl;
     std::cout << "chat observer menu:" <<std::endl;
-    std::cout << "1. to open dialog, write command (no matter" << std::endl;
+    std::cout << "1. to open dialog, write comand (no matter" << std::endl;
     std::cout << "does exist it or not): d to_user" << std::endl;
-    std::cout << "2. to open conversation, write command (no matter" << std::endl;
+    std::cout << "2. to open conversation, write comand (no matter" << std::endl;
     std::cout << "does exist it or not): c alias" << std::endl;
     std::cout << "3. to write messages to all users: d @ALL" << std::endl;
     std::cout << "4. to show available users, write command: u" << std::endl;
     std::cout << "5. to show all history dialogs, write command: h" << std::endl;
-    std::cout << "6. to go to main menu, write command: m" << std::endl;
-    std::cout << "7. to sign out, write command: s" << std::endl;
+    std::cout << "6. to go to main menu, write comand: m" << std::endl;
+    std::cout << "7. to sign out, write comand: s" << std::endl;
     std::cout << "8. to show help, write command: i" << std::endl;
     std::cout << std::endl;
 };
@@ -505,7 +505,7 @@ void ChatObserver::PrintDialogsHistory(ChatEngine* engine) const {
         }
     }
 };
-void ChatObserver::PrintAvailableUsers(ChatEngine* engine) const{
+void ChatObserver::Print¿vailableUsers(ChatEngine* engine) const{
     UserBase* u_base = UserBase::GetUserBase();
     if (u_base->GetUsers().size() == 1) {
         std::cout << "you are the first user! there is no one to send messages))))" << std::endl;

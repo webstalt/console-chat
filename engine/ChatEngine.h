@@ -9,7 +9,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
-#define UNAUTHORIZED "UNAUTHORIZED"
+#define UNAUTORISED "UNAUTORISED"
 #define MAINMENU "MAINMENU"
 #define REGISTRARION "REGISTRARION"
 #define PROFILESETTINGS "PROFILESETTINGS"
@@ -24,17 +24,17 @@ class IState
 {
 public:
     IState(const std::string& state_name) :_state_name(state_name) {};
-    std::string GetName()const;//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    std::string GetName()const;//бесполезно
     virtual void Execute() = 0;
     virtual void DisplayHelp() = 0;
-    virtual void SetState_Unauthorize(ChatEngine*);
+    virtual void SetState_Unautorise(ChatEngine*);
     virtual void SetState_Registration(ChatEngine*);
     virtual void SetState_MainMenu(ChatEngine*);
     virtual void SetState_ProfileSettings(ChatEngine*);
     virtual void SetState_ChatObserver(ChatEngine*);
     virtual void SetState_Chatting(ChatEngine*, const ConversationKey&);
 private:
-    std::string _state_name;//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    std::string _state_name;//бесполезно
 };
 //core class
 class ChatEngine
@@ -56,14 +56,14 @@ private:
     static ChatEngine* _chat_engine;
     ChatEngine(IState* istate) : _curent_state(istate) {};
 };
-class Unauthorized : public IState
+class Unautorised : public IState
 {
 public:
-    Unauthorized() : IState(UNAUTHORIZED) {};
+    Unautorised() : IState(UNAUTORISED) {};
     virtual void Execute() ;
     virtual void DisplayHelp();
 private:
-    virtual void SetState_Unauthorize(ChatEngine*) override {};//unacceptable command, does nothing
+    virtual void SetState_Unautorise(ChatEngine*) override {};//unacceptable command, does nothing
     virtual void SetState_ProfileSettings(ChatEngine*)override {};//unacceptable command, does nothing
     virtual void SetState_MainMenu(ChatEngine*)override {}//unacceptable command, does nothing
     virtual void SetState_Chatting(ChatEngine*, const ConversationKey&)override {};//unacceptable command, does nothing
@@ -82,7 +82,7 @@ private:
 class Registration : public IState
 {
 public:
-    Registration() : IState(REGISTRATION) {}
+    Registration() : IState(REGISTRARION) {}
     virtual void Execute();
     virtual void DisplayHelp();
 private:
@@ -98,7 +98,7 @@ public:
     virtual void Execute();
     virtual void DisplayHelp();
 private:
-    virtual void SetState_Unauthorize(ChatEngine*)override {};//unacceptable command, does nothing
+    virtual void SetState_Unautorise(ChatEngine*)override {};//unacceptable command, does nothing
     virtual void SetState_Registration(ChatEngine*)override {};//unacceptable command, does nothing
     virtual void SetState_ProfileSettings(ChatEngine*)override {};//unacceptable command, does nothing
     virtual void SetState_ChatObserver(ChatEngine*)override {};//unacceptable command, does nothing
@@ -115,11 +115,11 @@ public:
 private:
     virtual void DisplayHelp();
     void PrintDialogsHistory(ChatEngine*)const;
-    void PrintAvailableUsers(ChatEngine*)const;
+    void PrintАvailableUsers(ChatEngine*)const;
 };
 class Chatting : public IState
 {
-    virtual void SetState_Unauthorize(ChatEngine*)override {};//unacceptable command, does nothing
+    virtual void SetState_Unautorise(ChatEngine*)override {};//unacceptable command, does nothing
     virtual void SetState_Registration(ChatEngine*)override {};//unacceptable command, does nothing
     virtual void SetState_ProfileSettings(ChatEngine*)override {};//unacceptable command, does nothing
     virtual void SetState_Chatting(ChatEngine*, const ConversationKey&)override {};//unacceptable command, does nothing
