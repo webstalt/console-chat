@@ -9,7 +9,7 @@ UserBase::UserBase() {
 UserBase* UserBase::_user_base = nullptr;
 UserBase* UserBase::GetUserBase() {
 	if (_user_base == nullptr) {
-		_user_base = new UserBase();
+		_user_base = new UserBase;
 	}
 	return _user_base;
 }

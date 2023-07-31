@@ -18,7 +18,8 @@ ChatEngine* ChatEngine::GetChatEngine(IState* state) {
 };
 void ChatEngine::RunEngine() {
     GetChatEngine(_curent_state)->GetCurentState()->SetState_Unautorise(this);
-    while (true) {
+    while (_curent_state->GetName() != EXIT) {
+        std::cout << _curent_state->GetName() << std::endl;
         _curent_state->Execute();
     }
 }
@@ -26,7 +27,7 @@ void ChatEngine::SetState(IState* state)
 {
     delete GetChatEngine(_curent_state)->_curent_state;
     _curent_state = state;
-    std::cout << "\n\n" << GetChatEngine(_curent_state)->GetCurentState()->GetName();
+    std::cout << "\n" << GetChatEngine(_curent_state)->GetCurentState()->GetName();
 }
 IState* ChatEngine::GetCurentState()const
 {
@@ -46,6 +47,10 @@ ChatEngine::~ChatEngine()
 std::string IState::GetName()const
 {
     return _state_name;
+};
+void IState::SetState_ExitChat(ChatEngine* state) {
+    std::cout << "leaving the chat..." << std::endl;
+    state->SetState(new ExitChat());
 };
 void IState::SetState_Unautorise(ChatEngine* state) {
     std::cout << "going to start menu..." << std::endl;
@@ -72,6 +77,10 @@ void IState::SetState_Chatting(ChatEngine* state, const ConversationKey& curent_
     state->SetState(new Chatting(curent_key));
 };
 
+void ExitChat::Execute() {
+    return;
+};
+
 void Unautorised::Execute() {
     ChatEngine* engine = ChatEngine::GetChatEngine(this);
     UserBase* u_base = UserBase::GetUserBase();
@@ -84,7 +93,8 @@ void Unautorised::Execute() {
         switch (command)
         {
         case 'q': {
-            std::exit(0);
+            //std::exit(0);
+            this->SetState_ExitChat(engine);
             break;
         }
         case 's': {
@@ -552,4 +562,10 @@ void Chatting::DisplayHelp() {
 };
 ConversationKey Chatting::GetCurentKey()const {
     return this->_curent_key;
+};
+
+void start_chat() {
+    ChatEngine* de = ChatEngine::GetChatEngine(new Unautorised());
+    de->RunEngine();
+    delete de;
 };

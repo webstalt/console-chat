@@ -3,6 +3,7 @@
 
 #include "User.h"
 #include <map>
+#include <memory>
 
 class UserBase {
 public:
@@ -16,6 +17,7 @@ public:
 	void ChangeName(const User& curent_user, const std::string& new_name);//changes username
 	void ChangePassword(const User& curent_user, const std::string& new_password);//changes password
 private:
+	//static std::unique_ptr<UserBase> _user_base;
 	std::map<std::string, User> _user_base_data;//database of users, unique key is login
 	static UserBase* _user_base;//singleton
 	UserBase();//singleton

@@ -2,7 +2,8 @@
 #pragma once
 #include<string>
 #include<iostream>
-#include <cstdlib>
+#include<cstdlib>
+#include<memory>
 #include"../user/UserBase.h"
 #include"../conversation/ConversationBase.h"
 
@@ -10,14 +11,13 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
-//names of states, maybe some of them are not used
+
 #define UNAUTORISED "UNAUTORISED"
 #define MAINMENU "MAINMENU"
 #define REGISTRARION "REGISTRARION"
 #define PROFILESETTINGS "PROFILESETTINGS"
 #define CHATOBSERVER "CHATOBSERVER"
 #define CHATTING "CHATTING"
-#define SIGNOUT "SIGNOUT"
 #define EXIT "EXIT"
 
 
@@ -40,6 +40,7 @@ public:
     this functions changes state from curent to new;
     overrided to empty functions in child classes if this transition  is prohibited
     */
+    virtual void SetState_ExitChat(ChatEngine*);
     virtual void SetState_Unautorise(ChatEngine*);
     virtual void SetState_Registration(ChatEngine*);
     virtual void SetState_MainMenu(ChatEngine*);
@@ -69,11 +70,26 @@ private:
     static ChatEngine* _chat_engine;//singleton
     ChatEngine(IState* istate) : _curent_state(istate) {};//singleton
 };
+//states
+class ExitChat : public IState
+{
+public:
+    ExitChat() : IState(EXIT) {};
+    virtual void Execute();
+    virtual void DisplayHelp() {};
+private:
+    virtual void SetState_Unautorise(ChatEngine*) override {};//unacceptable command, does nothing
+    virtual void SetState_Registration(ChatEngine*) override {};//unacceptable command, does nothing
+    virtual void SetState_MainMenu(ChatEngine*) override {};//unacceptable command, does nothing
+    virtual void SetState_ProfileSettings(ChatEngine*)override {};//unacceptable command, does nothing
+    virtual void SetState_ChatObserver(ChatEngine*)override {}//unacceptable command, does nothing
+    virtual void SetState_Chatting(ChatEngine*, const ConversationKey&)override {};//unacceptable command, does nothing
+};
 class Unautorised : public IState
 {
 public:
     Unautorised() : IState(UNAUTORISED) {};
-    virtual void Execute() ;
+    virtual void Execute();
     virtual void DisplayHelp();
 private:
     virtual void SetState_Unautorise(ChatEngine*) override {};//unacceptable command, does nothing
@@ -88,6 +104,7 @@ public:
     virtual void Execute();
     virtual void DisplayHelp();
 private:
+    virtual void SetState_ExitChat(ChatEngine*) override {};//unacceptable command, does nothing
     virtual void SetState_Registration(ChatEngine*)override {};//unacceptable command, does nothing
     virtual void SetState_MainMenu(ChatEngine*)override {}//unacceptable command, does nothing
     virtual void SetState_Chatting(ChatEngine*, const ConversationKey&)override {}//unacceptable command, does nothing
@@ -99,6 +116,7 @@ public:
     virtual void Execute();
     virtual void DisplayHelp();
 private:
+    virtual void SetState_ExitChat(ChatEngine*) override {};//unacceptable command, does nothing
     virtual void SetState_Registration(ChatEngine*)override {};//unexpectable command, does nothing
     virtual void SetState_ProfileSettings(ChatEngine*)override {};//unexpectable command, does nothing
     virtual void SetState_MainMenu(ChatEngine*)override {};//unexpectable command, does nothing
@@ -111,6 +129,7 @@ public:
     virtual void Execute();
     virtual void DisplayHelp();
 private:
+    virtual void SetState_ExitChat(ChatEngine*) override {};//unacceptable command, does nothing
     virtual void SetState_Unautorise(ChatEngine*)override {};//unacceptable command, does nothing
     virtual void SetState_Registration(ChatEngine*)override {};//unacceptable command, does nothing
     virtual void SetState_ProfileSettings(ChatEngine*)override {};//unacceptable command, does nothing
@@ -119,6 +138,7 @@ private:
 };
 class ChatObserver : public IState
 {
+    virtual void SetState_ExitChat(ChatEngine*) override {};//unacceptable command, does nothing
     virtual void SetState_Registration(ChatEngine*)override {};//unacceptable command, does nothing
     virtual void SetState_ProfileSettings(ChatEngine*)override {};//unacceptable command, does nothing
     virtual void SetState_ChatObserver(ChatEngine*)override {};//unacceptable command, does nothing
@@ -132,6 +152,7 @@ private:
 };
 class Chatting : public IState
 {
+    virtual void SetState_ExitChat(ChatEngine*) override {};//unacceptable command, does nothing
     virtual void SetState_Unautorise(ChatEngine*)override {};//unacceptable command, does nothing
     virtual void SetState_Registration(ChatEngine*)override {};//unacceptable command, does nothing
     virtual void SetState_ProfileSettings(ChatEngine*)override {};//unacceptable command, does nothing
@@ -144,3 +165,6 @@ private:
     virtual void DisplayHelp();
     ConversationKey _curent_key;
 };
+
+//function to start chat executing
+void start_chat();
