@@ -4,8 +4,8 @@
 #include<iostream>
 #include<cstdlib>
 #include<memory>
-#include"../user/UserBase.h"
-#include"../conversation/ConversationBase.h"
+#include"../user/user_base.h"
+#include"../conversation/conversation_base.h"
 
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS

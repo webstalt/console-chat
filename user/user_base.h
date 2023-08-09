@@ -1,7 +1,7 @@
 //based on singleton
 #pragma once
 
-#include "User.h"
+#include "user.h"
 #include <map>
 #include <memory>
 

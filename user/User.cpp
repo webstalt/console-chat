@@ -1,4 +1,4 @@
-#include "User.h"
+#include "user.h"
 bool operator < (const User& c1, const User& c2)
 {
 	return c1.GetName() < c2.GetName();
